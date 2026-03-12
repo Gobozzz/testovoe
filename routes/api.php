@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/ping', fn() => 'pong');
+Route::get('/ping', fn () => 'pong');
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:6,1');
@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('users')->group(function () {
         Route::get('/me', [UserController::class, 'get']);
         Route::delete('/account', [UserController::class, 'delete']);
+        Route::get('/actions', [UserController::class, 'getActions']);
     });
 
 });

@@ -8,6 +8,8 @@ use App\Repositories\Profile\EloquentProfileRepository;
 use App\Repositories\Profile\ProfileRepositoryContract;
 use App\Repositories\User\EloquentUserRepository;
 use App\Repositories\User\UserRepositoryContract;
+use App\Repositories\UserAction\EloquentUserActionRepository;
+use App\Repositories\UserAction\UserActionRepositoryContract;
 use App\Services\AuthService\AuthService;
 use App\Services\AuthService\AuthServiceContract;
 use App\Services\ProfileService\ProfileService;
@@ -31,6 +33,7 @@ class BindServiceProvider extends ServiceProvider
         // Repositories
         $this->app->bind(ProfileRepositoryContract::class, EloquentProfileRepository::class);
         $this->app->bind(UserRepositoryContract::class, EloquentUserRepository::class);
+        $this->app->bind(UserActionRepositoryContract::class, EloquentUserActionRepository::class);
     }
 
     public function boot(): void

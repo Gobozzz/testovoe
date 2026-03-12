@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Services\UserActionService;
+namespace App\Repositories\UserAction;
 
 use App\DTO\UserAction\CreateUserActionDTO;
 use App\Models\UserAction;
+use Illuminate\Pagination\LengthAwarePaginator;
 
-final class UserActionService implements UserActionServiceContract
+final class EloquentUserActionRepository implements UserActionRepositoryContract
 {
     public function create(CreateUserActionDTO $dto): UserAction
     {
@@ -16,5 +17,10 @@ final class UserActionService implements UserActionServiceContract
             'action' => $dto->userActionType,
             'details' => $dto->details,
         ]);
+    }
+
+    public function getPaginateByUserId(int $userId): LengthAwarePaginator
+    {
+        return UserAction::query()->where('user_id', $userId)->paginate(10);
     }
 }

@@ -7,17 +7,17 @@ namespace App\Observers;
 use App\DTO\UserAction\CreateUserActionDTO;
 use App\Enums\UserActionType;
 use App\Models\User;
-use App\Services\UserActionService\UserActionServiceContract;
+use App\Repositories\UserAction\UserActionRepositoryContract;
 
 final class UserObserver
 {
     public function __construct(
-        private readonly UserActionServiceContract $userActionService
+        private readonly UserActionRepositoryContract $userActionRepository,
     ) {}
 
     public function created(User $user): void
     {
-        $this->userActionService->create(new CreateUserActionDTO(
+        $this->userActionRepository->create(new CreateUserActionDTO(
             userId: $user->getKey(),
             userActionType: UserActionType::CREATED,
             details: ['user_id' => $user->getKey(), 'email' => $user->email, 'phone' => $user->phone],
@@ -26,7 +26,7 @@ final class UserObserver
 
     public function updated(User $user): void
     {
-        $this->userActionService->create(new CreateUserActionDTO(
+        $this->userActionRepository->create(new CreateUserActionDTO(
             userId: $user->getKey(),
             userActionType: UserActionType::UPDATED,
             details: ['user_id' => $user->getKey(), ...$user->getChanges()],
@@ -35,7 +35,7 @@ final class UserObserver
 
     public function deleted(User $user): void
     {
-        $this->userActionService->create(new CreateUserActionDTO(
+        $this->userActionRepository->create(new CreateUserActionDTO(
             userId: $user->getKey(),
             userActionType: UserActionType::DELETED,
             details: ['user_id' => $user->getKey(), 'date' => now()],
